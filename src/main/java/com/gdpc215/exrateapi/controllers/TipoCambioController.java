@@ -43,14 +43,14 @@ public class TipoCambioController {
     }
     
     @PostMapping("/tipocambio")
-    Mono<TipoCambio> addTipoCambio(@RequestBody TipoCambio tipoCambio) {
+    Mono<TipoCambio> postTipoCambio(@RequestBody TipoCambio tipoCambio) {
     	tipoCambio.setModificacion(ZonedDateTime.now());
     	tipoCambio.setId(null);
         return repository.save(tipoCambio);
     }
     
     @PutMapping("/tipocambio/moneda/{id}")
-    Mono<ResponseEntity<TipoCambio>> updateTipoCambio(@PathVariable(value = "id") String id, @RequestBody TipoCambio tipoCambio) {
+    Mono<ResponseEntity<TipoCambio>> putTipoCambio(@PathVariable(value = "id") String id, @RequestBody TipoCambio tipoCambio) {
     	return repository
     		.findById(id)
     		.flatMap(objTC -> {

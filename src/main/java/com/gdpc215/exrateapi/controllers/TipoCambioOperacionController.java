@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gdpc215.exrateapi.objects.TipoCambio;
 import com.gdpc215.exrateapi.objects.TipoCambioOperacion;
+import com.gdpc215.exrateapi.objects.TipoCambioSolicitud;
 import com.gdpc215.exrateapi.repositories.TipoCambioOperacionRepository;
 import com.gdpc215.exrateapi.repositories.TipoCambioRepository;
 
@@ -68,10 +69,10 @@ public class TipoCambioOperacionController {
     }
     
     @PostMapping("/operacion/cambio")
-    Mono<TipoCambioOperacion> getTipoCambio(@RequestBody TipoCambioOperacion tco) {
-    	BigDecimal monto = tco.getMonto();
-    	String monedaOrigen = tco.getMonedaOrigen();
-    	String monedaDestino = tco.getMonedaDestino();
+    Mono<TipoCambioOperacion> postTipoCambio(@RequestBody TipoCambioSolicitud tco) {
+    	BigDecimal monto = tco.monto;
+    	String monedaOrigen = tco.monedaOrigen;
+    	String monedaDestino = tco.monedaDestino;
     	
     	return tcRepository
     		.getTipoCambioMoneda(monedaOrigen)
