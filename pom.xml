@@ -17,8 +17,8 @@
 	<description>API para tipos de cambio</description>
 
 	<properties>
-        <docker.image.prefix>springio</docker.image.prefix>
-        <start-class>com.gdpc215.exrateapi.ExRateApiApplication</start-class>
+		<docker.image.prefix>springio</docker.image.prefix>
+		<start-class>com.gdpc215.exrateapi.ExRateApiApplication</start-class>
 		<java.version>1.8</java.version>
 	</properties>
 
@@ -69,6 +69,30 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<archive>
+								<manifest>
+									<mainClass>
+										com.gdpc215.exrateapi.ExRateApiApplication
+									</mainClass>
+								</manifest>
+							</archive>
+							<descriptorRefs>
+								<descriptorRef>jar-with-dependencies</descriptorRef>
+							</descriptorRefs>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
