@@ -1,7 +1,6 @@
 package com.gdpc215.exrateapi.controllers;
 
 import java.time.ZonedDateTime;
-import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,7 +24,7 @@ import reactor.core.publisher.Mono;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api")
-class TipoCambioController {
+public class TipoCambioController {
     private TipoCambioRepository repository;
 
     @Autowired
@@ -44,14 +43,16 @@ class TipoCambioController {
     }
     
     @PostMapping("/tipocambio")
-    Flux<TipoCambio> addTipoCambio(@RequestBody TipoCambio[] tiposCambio) {
-        return repository.saveAll(Arrays.asList(tiposCambio));
+    Mono<TipoCambio> addTipoCambio(@RequestBody TipoCambio tipoCambio) {
+    	tipoCambio.setModificacion(ZonedDateTime.now());
+    	tipoCambio.setId(null);
+        return repository.save(tipoCambio);
     }
     
-    @PutMapping("/tipocambio")
-    Mono<ResponseEntity<TipoCambio>> updateTipoCambio(@PathVariable(value = "moneda") String tcMoneda, @RequestBody TipoCambio tipoCambio) {
+    @PutMapping("/tipocambio/moneda/{id}")
+    Mono<ResponseEntity<TipoCambio>> updateTipoCambio(@PathVariable(value = "id") String id, @RequestBody TipoCambio tipoCambio) {
     	return repository
-    		.getTipoCambioMoneda(tcMoneda)
+    		.findById(id)
     		.flatMap(objTC -> {
     			objTC.setCambio(tipoCambio.getCambio());
     			objTC.setOrigen(tipoCambio.getOrigen());
